@@ -1,0 +1,181 @@
+{
+    "name": "melk",
+    "groups": [],
+    "abi": {
+        "methods": [
+            {
+                "name": "get_role_owner",
+                "offset": 0,
+                "parameters": [
+                    {
+                        "type": "ByteArray",
+                        "name": "role"
+                    }
+                ],
+                "safe": true,
+                "returntype": "Hash160"
+            },
+            {
+                "name": "is_paused",
+                "offset": 77,
+                "parameters": [],
+                "safe": true,
+                "returntype": "Boolean"
+            },
+            {
+                "name": "symbol",
+                "offset": 137,
+                "parameters": [],
+                "safe": true,
+                "returntype": "String"
+            },
+            {
+                "name": "decimals",
+                "offset": 139,
+                "parameters": [],
+                "safe": true,
+                "returntype": "Integer"
+            },
+            {
+                "name": "totalSupply",
+                "offset": 141,
+                "parameters": [],
+                "safe": true,
+                "returntype": "Integer"
+            },
+            {
+                "name": "balanceOf",
+                "offset": 162,
+                "parameters": [
+                    {
+                        "type": "Hash160",
+                        "name": "account"
+                    }
+                ],
+                "safe": true,
+                "returntype": "Integer"
+            },
+            {
+                "name": "transfer",
+                "offset": 192,
+                "parameters": [
+                    {
+                        "type": "Hash160",
+                        "name": "from_address"
+                    },
+                    {
+                        "type": "Hash160",
+                        "name": "to_address"
+                    },
+                    {
+                        "type": "Integer",
+                        "name": "amount"
+                    },
+                    {
+                        "type": "Any",
+                        "name": "data"
+                    }
+                ],
+                "safe": false,
+                "returntype": "Boolean"
+            },
+            {
+                "name": "verify",
+                "offset": 491,
+                "parameters": [],
+                "safe": false,
+                "returntype": "Boolean"
+            },
+            {
+                "name": "_deploy",
+                "offset": 672,
+                "parameters": [
+                    {
+                        "type": "Any",
+                        "name": "data"
+                    },
+                    {
+                        "type": "Boolean",
+                        "name": "update"
+                    }
+                ],
+                "safe": false,
+                "returntype": "Void"
+            },
+            {
+                "name": "onNEP17Payment",
+                "offset": 499,
+                "parameters": [
+                    {
+                        "type": "Any",
+                        "union": [
+                            {
+                                "type": "Hash160"
+                            },
+                            {
+                                "type": "Void"
+                            }
+                        ],
+                        "name": "from_address"
+                    },
+                    {
+                        "type": "Integer",
+                        "name": "amount"
+                    },
+                    {
+                        "type": "Any",
+                        "name": "data"
+                    }
+                ],
+                "safe": false,
+                "returntype": "Void"
+            },
+            {
+                "name": "_initialize",
+                "offset": 748,
+                "parameters": [],
+                "safe": false,
+                "returntype": "Void"
+            }
+        ],
+        "events": [
+            {
+                "name": "Transfer",
+                "parameters": [
+                    {
+                        "name": "from_addr",
+                        "type": "Any"
+                    },
+                    {
+                        "name": "to_addr",
+                        "type": "Any"
+                    },
+                    {
+                        "name": "amount",
+                        "type": "Integer"
+                    }
+                ]
+            }
+        ]
+    },
+    "permissions": [
+        {
+            "contract": "*",
+            "methods": [
+                "onNEP17Payment"
+            ]
+        },
+        {
+            "contract": "0xfffdc93764dbaddd97c48f252a53ea4643faa3fd",
+            "methods": [
+                "getContract"
+            ]
+        }
+    ],
+    "trusts": [],
+    "features": {},
+    "supportedstandards": [
+        "NEP-17"
+    ],
+    "extra": null
+}
