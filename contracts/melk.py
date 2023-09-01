@@ -4,7 +4,11 @@ from boa3.builtin.compile_time import NeoMetadata, metadata, public
 from boa3.builtin.contract import Nep17TransferEvent, abort
 from boa3.builtin.interop import runtime, storage
 from boa3.builtin.interop.blockchain import Transaction
-from boa3.builtin.interop.contract import GAS as GAS_SCRIPT, NEO as NEO_SCRIPT, call_contract
+from boa3.builtin.interop.contract import (
+    GAS as GAS_SCRIPT,
+    NEO as NEO_SCRIPT,
+    call_contract,
+)
 from boa3.builtin.nativecontract.contractmanagement import ContractManagement
 from boa3.builtin.type import UInt160, helper as type_helper
 
@@ -13,14 +17,15 @@ from boa3.builtin.type import UInt160, helper as type_helper
 # METADATA
 # -------------------------------------------
 
+
 @metadata
 def manifest_metadata() -> NeoMetadata:
     """
     Defines this smart contract's metadata information
     """
     meta = NeoMetadata()
-    meta.supported_standards = ['NEP-17']
-    meta.add_permission(methods=['onNEP17Payment'])
+    meta.supported_standards = ["NEP-17"]
+    meta.add_permission(methods=["onNEP17Payment"])
 
     return meta
 
@@ -31,14 +36,14 @@ def manifest_metadata() -> NeoMetadata:
 
 
 # The keys used to access the storage
-OWNER_KEY = b'owner'
-SUPPLY_KEY = b'totalSupply'
+OWNER_KEY = b"owner"
+SUPPLY_KEY = b"totalSupply"
 
 # Symbol of the Token
-TOKEN_NAME = 'Melk'
-TOKEN_SYMBOL = 'MELK'
-TOKEN_DECIMALS = 18
-TOKEN_TOTAL_SUPPLY = 10_000_000 * 10 ** TOKEN_DECIMALS
+TOKEN_NAME = "Melk Token"
+TOKEN_SYMBOL = "MELK"
+TOKEN_DECIMALS = 8
+TOKEN_TOTAL_SUPPLY = 10_000_000 * 10**TOKEN_DECIMALS
 AMOUNT_PER_NEO = 0
 AMOUNT_PER_GAS = 0
 
@@ -46,8 +51,8 @@ AMOUNT_PER_GAS = 0
 # Roles
 # -------------------------------------------
 
-PAUSER_ROLE = b'pauser'
-MINTER_ROLE = b'minter'
+PAUSER_ROLE = b"pauser"
+MINTER_ROLE = b"minter"
 
 # -------------------------------------------
 # Events
@@ -60,6 +65,7 @@ on_transfer = Nep17TransferEvent
 # -------------------------------------------
 # Methods
 # -------------------------------------------
+
 
 @public(safe=True)
 def get_role_owner(role: bytes) -> UInt160:
@@ -76,7 +82,7 @@ def pause() -> None:
     Pauses all token transfers.
     """
     assert runtime.check_witness(get_owner())
-    storage.put(b'paused', True)
+    storage.put(b"paused", True)
 
 
 def unpause() -> None:
@@ -84,12 +90,12 @@ def unpause() -> None:
     Unpauses all token transfers.
     """
     assert runtime.check_witness(get_owner())
-    storage.delete(b'paused')
+    storage.delete(b"paused")
 
 
 @public(safe=True)
 def is_paused() -> bool:
-    return bool(storage.get(b'paused'))
+    return bool(storage.get(b"paused"))
 
 
 @public(safe=True)
@@ -115,7 +121,7 @@ def decimals() -> int:
     return TOKEN_DECIMALS
 
 
-@public(name='totalSupply', safe=True)
+@public(name="totalSupply", safe=True)
 def total_supply() -> int:
     """
     Gets the total token supply deployed in the system.
@@ -126,7 +132,7 @@ def total_supply() -> int:
     return type_helper.to_int(storage.get(SUPPLY_KEY))
 
 
-@public(name='balanceOf', safe=True)
+@public(name="balanceOf", safe=True)
 def balance_of(account: UInt160) -> int:
     """
     Get the current balance of an address
@@ -139,7 +145,9 @@ def balance_of(account: UInt160) -> int:
 
 
 @public
-def transfer(from_address: UInt160, to_address: UInt160, amount: int, data: Any) -> bool:
+def transfer(
+    from_address: UInt160, to_address: UInt160, amount: int, data: Any
+) -> bool:
     """
     Transfers an amount of NEP17 tokens from one account to another
     If the method succeeds, it must fire the `Transfer` event and must return true, even if the amount is 0,
@@ -190,7 +198,12 @@ def transfer(from_address: UInt160, to_address: UInt160, amount: int, data: Any)
     return True
 
 
-def post_transfer(from_address: Union[UInt160, None], to_address: Union[UInt160, None], amount: int, data: Any):
+def post_transfer(
+    from_address: Union[UInt160, None],
+    to_address: Union[UInt160, None],
+    amount: int,
+    data: Any,
+):
     """
     Checks if the one receiving NEP17 tokens is a smart contract and if it's one the onPayment method will be called
     :param from_address: the address of the sender
@@ -205,7 +218,7 @@ def post_transfer(from_address: Union[UInt160, None], to_address: Union[UInt160,
     if to_address is not None:
         contract = ContractManagement.get_contract(to_address)
         if contract is not None:
-            call_contract(to_address, 'onNEP17Payment', [from_address, amount, data])
+            call_contract(to_address, "onNEP17Payment", [from_address, amount, data])
 
 
 def mint(account: UInt160, amount: int):

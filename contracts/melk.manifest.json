@@ -110,10 +110,10 @@
                         "type": "Any",
                         "union": [
                             {
-                                "type": "Hash160"
+                                "type": "Void"
                             },
                             {
-                                "type": "Void"
+                                "type": "Hash160"
                             }
                         ],
                         "name": "from_address"
