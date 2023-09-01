@@ -16,5 +16,5 @@ Run this command:
 
 ## MELK TOKEN
 
-- Address on testnet: `0x22a0b0488be9daf510c0a9e656016e3302dd38a`
+- Address on testnet: `0x1b817f8f7f76dae84d3343908b0c2a7df770c3e5`
 
