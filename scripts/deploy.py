@@ -47,7 +47,7 @@ async def deploy(facade: ChainFacade):
 
 
 async def main():
-    return
+    # if you want to deploy on testnet, just change to node_provider_mainnet
     facade = ChainFacade.node_provider_testnet()
     facade.rpc_host = "http://seed1t5.neo.org:20332"  # fixing wrong RPC TESTNET
 
@@ -56,34 +56,9 @@ async def main():
         Signer(account.script_hash),
     )
 
-    # Uncomment this if you want to deploy a new contract. Then, replace the contract hash below in the string
-
-    # receipt = await deploy(facade=facade)
-    # print(receipt)
-
-    contract_hash = types.UInt160.from_string(
-        "0x1b817f8f7f76dae84d3343908b0c2a7df770c3e5"
-    )
-
-    token = NEP17Contract(contract_hash)
-
-    balance = await facade.test_invoke(token.balance_of(account.address))
-    print(f"Current MELK token balance: {balance}")
-
-    total_supply = await facade.test_invoke(token.total_supply())
-    print(f"Total supply: {total_supply}")
-
-    is_paused = await facade.test_invoke(token.call_function("is_paused"))
-    print(f"Is paused: {is_paused.stack[0].value}")
-
-    destination = "NaQSq2VexRSoWgKHmbM8qVbLPpZqefD5SL"  # replace this with the destination address
-    print("Transfering MELK tokens")
-    res = await facade.invoke(token.transfer(account.address, destination, 10))
-    print(res)
-
-    print("Checking if balance changed")
-    balance = await facade.test_invoke(token.balance_of(destination))
-    print(balance)
+    receipt = await deploy(facade=facade)
+    print(receipt)
+    return
 
 
 if __name__ == "__main__":
