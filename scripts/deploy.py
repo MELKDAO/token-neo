@@ -15,9 +15,17 @@ from neo3.contracts import nef, manifest
 from neo3.network.payloads.verification import Signer
 from neo3.wallet.account import Account
 from neo3.api.noderpc import NeoRpcClient
+from dotenv import load_dotenv
+import os
 
-private_key = ""  # private key of the account that will deploy the contract
-password = ""  # password of the account that will deploy the contract
+load_dotenv()
+
+private_key = os.getenv(
+    "PRIVATE_KEY"
+)  # private key of the account that will deploy the contract
+password = os.getenv(
+    "PASSWORD"
+)  # password of the account that will deploy the contract
 
 account = Account.from_wif(private_key, password)
 
@@ -39,6 +47,7 @@ async def deploy(facade: ChainFacade):
 
 
 async def main():
+    return
     facade = ChainFacade.node_provider_testnet()
     facade.rpc_host = "http://seed1t5.neo.org:20332"  # fixing wrong RPC TESTNET
 
@@ -53,7 +62,7 @@ async def main():
     # print(receipt)
 
     contract_hash = types.UInt160.from_string(
-        "0x22a0b0488be9daf510c0a9e656016e3302dd38a1"
+        "0x1b817f8f7f76dae84d3343908b0c2a7df770c3e5"
     )
 
     token = NEP17Contract(contract_hash)
@@ -62,7 +71,7 @@ async def main():
     print(f"Current MELK token balance: {balance}")
 
     total_supply = await facade.test_invoke(token.total_supply())
-    print(f"Total supply: {total_supply.stack[0].value}")
+    print(f"Total supply: {total_supply}")
 
     is_paused = await facade.test_invoke(token.call_function("is_paused"))
     print(f"Is paused: {is_paused.stack[0].value}")
