@@ -14,7 +14,18 @@ Run this command:
 
 `pip install -r requirements.txt`
 
+## Compile contract
+
+Run `neo3-boa compile contracts/melk.py`
+
+## Deploying contract
+
+Be sure to set up your environment variables as shown in `.env.example`
+
+Run `python3 scripts/deploy.py`
+
+
 ## MELK TOKEN
 
-- Address on testnet: `0x1b817f8f7f76dae84d3343908b0c2a7df770c3e5`
+- Address on testnet: `0x701df0733baca29e893508507bafe94b53b67a0fbd879b117e505c4df2e36ab3`
 
