@@ -27,5 +27,5 @@ Run `python3 scripts/deploy.py`
 
 ## MELK TOKEN
 
-- Address on testnet: `0x701df0733baca29e893508507bafe94b53b67a0fbd879b117e505c4df2e36ab3`
+- Address on testnet: `0xa22dfdd6c47bf0b8c343d3e588a8ad635ee01e83`
 
