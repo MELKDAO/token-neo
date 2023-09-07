@@ -17,13 +17,14 @@ namespace melkToken
         
         const string MAP_NAME = "MelkTokenContract";
 
-        static readonly ulong InitialSupply = 1_000_000;
+        public static ulong Decimals() => 8;
+
+        static readonly ulong InitialSupply = 10_000_000 * 1_000_000_000UL; 
 
         public static BigInteger TotalSupply() => InitialSupply;
         
-        public static string Symbol() => "XYZ";
+        public static string Symbol() => "MELKC#";
 
-        public static ulong Decimals() => 8;
 
         [DisplayName("Transfer")]
         public static event Action<UInt160, UInt160, BigInteger> OnTransfer;
