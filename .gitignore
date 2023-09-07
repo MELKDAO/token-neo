@@ -1,3 +1,8 @@
 /.pytest_cache
 /venv
 .env
+/Data_LevelDB_3554334E
+/wallets
+/*/*/*/bin
+/contracts/melkToken/src/obj
+/contracts/melkToken/test/obj
