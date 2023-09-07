@@ -30,12 +30,13 @@ Run `python3 scripts/deploy.py`
 Install the N3 Extension on VScode.
 Install dotnet SDK and neo express.
 
-Reference tutorial: https://developers.neo.org/tutorials/2021/05/04/real-world-tokens#source-code-listing
+Reference tutorial: https://developers.neo.org/tutorials/2021/05/04/real-world-tokens and
+https://github.com/neo-project/examples/blob/master/csharp/NEP17/NEP17.cs
 
 Deploy the contract (after having the .nef and .manifest file) here: https://www.neonova.space/contract
 
 
 ## MELK TOKEN
 
-- Address on testnet: `0x1f138fd189b7673663c265c81971e9ac9b115424`
+- Address on testnet: `0xaae0e4dded4d862fd62b1deb47ef33cc0d030dcb`
 
