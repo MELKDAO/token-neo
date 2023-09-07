@@ -1,107 +1,65 @@
-﻿using System;
-using System.ComponentModel;
-using System.Numerics;
-
-using Neo;
-using Neo.SmartContract.Framework;
+﻿using Neo.SmartContract.Framework;
 using Neo.SmartContract.Framework.Attributes;
 using Neo.SmartContract.Framework.Native;
 using Neo.SmartContract.Framework.Services;
+using System;
+using System.Numerics;
 
-namespace melkToken
+namespace Neo.SmartContract.Examples
 {
-    [DisplayName("melkTokenContract")]
-    [ManifestExtra("Author", "Melk Dao Team")]
-    public class melkTokenContract : SmartContract
+    [ManifestExtra("Author", "Melk DAO team")]
+    [SupportedStandards("NEP-17")]
+    [ContractPermission("*", "onNEP17Payment")]
+    public partial class MelkToken : Nep17Token
     {
-        
-        const string MAP_NAME = "MelkTokenContract";
+        [InitialValue("NhGobEnuWX5rVdpnuZZAZExPoRs5J6D2Sb", ContractParameterType.Hash160)]
+        private static readonly UInt160 owner = default;
+        // Prefix_TotalSupply = 0x00; Prefix_Balance = 0x01;
+        private const byte Prefix_Contract = 0x02;
+        public static readonly StorageMap ContractMap = new StorageMap(Storage.CurrentContext, Prefix_Contract);
+        private static readonly byte[] ownerKey = "owner".ToByteArray();
+        private static bool IsOwner() => Runtime.CheckWitness(GetOwner());
+        public override byte Decimals() => Factor();
+        public override string Symbol() => "MELK";
 
-        public static ulong Decimals() => 8;
+        public static byte Factor() => 8;
 
-        static readonly ulong InitialSupply = 10_000_000 * 1_000_000_000UL; 
-
-        public static BigInteger TotalSupply() => InitialSupply;
-        
-        public static string Symbol() => "MELKC#";
-
-
-        [DisplayName("Transfer")]
-        public static event Action<UInt160, UInt160, BigInteger> OnTransfer;
-
-        private static StorageMap Balances => new StorageMap(Storage.CurrentContext, MAP_NAME);
-
-        private static BigInteger Get(UInt160 key) => (BigInteger) Balances.Get(key);
-
-        private static void Put(UInt160 key, BigInteger value) => Balances.Put(key, value);
-
-        private static void Increase(UInt160 key, BigInteger value)
+        public static void _deploy(object data, bool update)
         {
-            Put(key, Get(key) + value);
+            if (update) return;
+            ContractMap.Put(ownerKey, owner);
+            Nep17Token.Mint(owner, 100000000 * BigInteger.Pow(10, Factor()));
         }
 
-        private static void Reduce(UInt160 key, BigInteger value)
+        public static UInt160 GetOwner()
         {
-            var oldValue = Get(key);
-            if (oldValue == value)
-            {
-                Balances.Delete(key);
-            }
-            else
-            {
-                Put(key, oldValue - value);
-            }
+            return (UInt160)ContractMap.Get(ownerKey);
         }
 
-        public static bool Transfer(UInt160 from, UInt160 to, BigInteger amount, object data)
+        public static new void Mint(UInt160 account, BigInteger amount)
         {
-            if (!from.IsValid || !to.IsValid)
-            {
-                throw new Exception("The parameters from and to should be 20-byte addresses");
-            }
+            if (!IsOwner()) throw new InvalidOperationException("No Authorization!");
+            Nep17Token.Mint(account, amount);
+        }
 
-            if (amount < 0) 
-            {
-                throw new Exception("The amount parameter must be greater than or equal to zero");
-            }
+        public static new void Burn(UInt160 account, BigInteger amount)
+        {
+            if (!IsOwner()) throw new InvalidOperationException("No Authorization!");
+            Nep17Token.Burn(account, amount);
+        }
 
-            if (!from.Equals(Runtime.CallingScriptHash) && !Runtime.CheckWitness(from))
-            {
-                throw new Exception("No authorization.");
-            }
-            
-            if (Get(from) < amount)
-            {
-                throw new Exception("Insufficient balance");
-            }
-
-            Reduce(from, amount);
-            Increase(to, amount);
-            OnTransfer(from, to, amount);
-
-            if (ContractManagement.GetContract(to) != null)
-            {
-                Contract.Call(to, "onPayment", CallFlags.None, new object[] { from, amount, data });
-            }
-            
+        public static bool Update(ByteString nefFile, string manifest)
+        {
+            if (!IsOwner()) throw new InvalidOperationException("No Authorization!");
+            ContractManagement.Update(nefFile, manifest, null);
             return true;
         }
 
-        public static BigInteger BalanceOf(UInt160 account)
+        public static bool Destroy()
         {
-            return Get(account);
-        }
-
-        [DisplayName("_deploy")]
-        public static void Deploy(object data, bool update)
-        {
-            if (!update)
-            {
-                var tx = (Transaction) Runtime.ScriptContainer;
-                var owner = (Neo.UInt160) tx.Sender;
-                Increase(owner, InitialSupply);
-                OnTransfer(null, owner, InitialSupply);
-            }
+            if (!IsOwner()) throw new InvalidOperationException("No Authorization!");
+            ContractManagement.Destroy();
+            return true;
         }
     }
 }
