@@ -32,16 +32,22 @@ account = Account.from_wif(private_key, password)
 
 async def deploy(facade: ChainFacade):
     root = Path(__file__).parent.parent
-    nef_file = root / "contracts" / "melk.nef"
+    nef_file = (
+        root
+        / "contracts"
+        / "melkToken"
+        / "src"
+        / "bin"
+        / "sc"
+        / "melkTokenContract.nef"
+    )
     nef_contract = nef.NEF.from_file(nef_file)
 
-    manifest_file = root / "contracts" / "melk.manifest.json"
-    manifest_contract = manifest.ContractManifest.from_file(manifest_file)
+    # manifest_file = root / "contracts" / "melk.manifest.json"
+    # manifest_contract = manifest.ContractManifest.from_file(manifest_file)
 
     print("Deploying contract ...")
-    receipt = await facade.invoke(
-        GenericContract.deploy(nef_contract, manifest_contract)
-    )
+    receipt = await facade.invoke(GenericContract.deploy(nef_contract, manifest=None))
     print("done")
     return receipt
 
