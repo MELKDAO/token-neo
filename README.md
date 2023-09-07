@@ -37,5 +37,5 @@ Deploy the contract (after having the .nef and .manifest file) here: https://www
 
 ## MELK TOKEN
 
-- Address on testnet: `0x8c2213d3186d98c9473c167e9032c26305724df2`
+- Address on testnet: `0x1f138fd189b7673663c265c81971e9ac9b115424`
 
