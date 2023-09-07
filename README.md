@@ -25,7 +25,17 @@ Be sure to set up your environment variables as shown in `.env.example`
 Run `python3 scripts/deploy.py`
 
 
+# Running on CSharp
+
+Install the N3 Extension on VScode.
+Install dotnet SDK and neo express.
+
+Reference tutorial: https://developers.neo.org/tutorials/2021/05/04/real-world-tokens#source-code-listing
+
+Deploy the contract (after having the .nef and .manifest file) here: https://www.neonova.space/contract
+
+
 ## MELK TOKEN
 
-- Address on testnet: `0xa22dfdd6c47bf0b8c343d3e588a8ad635ee01e83`
+- Address on testnet: `0x8c2213d3186d98c9473c167e9032c26305724df2`
 
