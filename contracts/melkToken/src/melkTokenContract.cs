@@ -12,7 +12,7 @@ namespace Neo.SmartContract.Examples
     [ContractPermission("*", "onNEP17Payment")]
     public partial class MelkToken : Nep17Token
     {
-        [InitialValue("NM43Uakt4YtZVax8gb4mQVjbvkfhi3ak8z", ContractParameterType.Hash160)]
+        [InitialValue("NM9JkgpPpLmMc7tKqqeCRkW6P597NghiL2", ContractParameterType.Hash160)]
         private static readonly UInt160 owner = default;
         // Prefix_TotalSupply = 0x00; Prefix_Balance = 0x01;
         private const byte Prefix_Contract = 0x02;
