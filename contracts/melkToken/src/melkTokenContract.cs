@@ -12,8 +12,6 @@ namespace Neo.SmartContract.Examples
     [ContractPermission("*", "onNEP17Payment")]
     public partial class MelkToken : Nep17Token
     {
-        [InitialValue("NM9JkgpPpLmMc7tKqqeCRkW6P597NghiL2", ContractParameterType.Hash160)]
-        private static readonly UInt160 owner = default;
         // Prefix_TotalSupply = 0x00; Prefix_Balance = 0x01;
         private const byte Prefix_Contract = 0x02;
         public static readonly StorageMap ContractMap = new StorageMap(Storage.CurrentContext, Prefix_Contract);
@@ -27,13 +25,14 @@ namespace Neo.SmartContract.Examples
         public static void _deploy(object data, bool update)
         {
             if (update) return;
+            UInt160 owner = (UInt160) data;
             ContractMap.Put(ownerKey, owner);
             Nep17Token.Mint(owner, 100000000 * BigInteger.Pow(10, Factor()));
         }
 
         public static UInt160 GetOwner()
         {
-            return (UInt160)ContractMap.Get(ownerKey);
+            return (UInt160) ContractMap.Get(ownerKey);
         }
 
         public static new void Mint(UInt160 account, BigInteger amount)

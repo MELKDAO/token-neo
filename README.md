@@ -35,8 +35,15 @@ https://github.com/neo-project/examples/blob/master/csharp/NEP17/NEP17.cs
 
 Deploy the contract (after having the .nef and .manifest file) here: https://www.neonova.space/contract
 
+# Running deploy on Java - passing parameters
+
+Open `/deploy` -> `src/main/java/com/axlabs/neo/deployment`. You'll find a java file `Deployment.java`
+
+If you're on vscode, just click the "Run" button that you should be seing inside of the file.
+
+Don't forget to change the value of the WIF key (which is your private key) for the deployer and the Owner parameter for the deploy.
 
 ## MELK TOKEN
 
-- Address on testnet: `0x5473bba75304c618fbeeee01a95cc394b4cd3459`
+- Address on testnet: `0x14646e09e3fd3a1a9a124069fdc1cb0dc0d17d6c`
 
