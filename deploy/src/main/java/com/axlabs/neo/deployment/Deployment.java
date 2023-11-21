@@ -27,7 +27,7 @@ public class Deployment {
 
         // This is the account that will pay for the deployment transaction but does not have any special rights in the contract. If you don't have your WIF, but have your hexstring private key, use the line below.
         // String wif = WIF.getWIFFromPrivateKey(Numeric.hexStringToByteArray("YOUR_HEXADECIMAL_PRIVATE_KEY"));
-        
+
         String wif = "YOUR_WIF";
         Account signingAccount = Account.fromWIF(wif);
         System.out.println(signingAccount.getAddress());
@@ -65,4 +65,3 @@ public class Deployment {
         System.out.println("Contract Hash: " + contractHash);
     }
 }
-
